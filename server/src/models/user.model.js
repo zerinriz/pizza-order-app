@@ -16,6 +16,9 @@ const UserSchema = new mongoose.Schema({
     required: "Email is required",
   },
 
+  addresses: [{ type: mongoose.Types.ObjectId, ref: "Address" }],
+  orders: [{ type: mongoose.Types.ObjectId, ref: "Orders" }],
+
   created: {
     type: Date,
     default: Date.now,

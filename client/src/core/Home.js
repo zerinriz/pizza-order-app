@@ -3,6 +3,8 @@ import { listDough } from "./../order/api-order";
 import Dough from "./Dough";
 import OrderScreen from "./OrderScreen";
 import "./.././assets/styles/index.css";
+import auth from "./../auth/auth-helper";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [listOfDough, setListOfDough] = useState([]);
@@ -14,7 +16,6 @@ const Home = () => {
         console.log(data.error);
       } else {
         setListOfDough(data);
-        console.log(data);
       }
     });
   }, []);
@@ -36,6 +37,7 @@ const Home = () => {
                 desc={item.desc}
                 name={item.name}
                 type={item.dough}
+                price={item.price}
               />
             ))}
           </div>
@@ -44,14 +46,33 @@ const Home = () => {
             style={{ marginLeft: "5px", maxHeight: "740px" }}
           >
             <h3>Order</h3>
-            <OrderScreen />
-            <button
-              id="read-more"
-              className="btn btn-primary  position-absolute"
-              style={{ bottom: "15px", right: "15px" }}
-            >
-              Buy
-            </button>
+            <div className="scroll" style={{ maxHeight: "85%" }}>
+              <OrderScreen />
+              {auth.isAuthenticated() && (
+                <Link to={"/user/" + auth.isAuthenticated().user._id}>
+                  <button
+                    id="read-more"
+                    className="btn btn-primary  position-absolute"
+                    style={{ bottom: "15px", right: "15px" }}
+                  >
+                    Buy
+                  </button>
+                </Link>
+              )}
+              {!auth.isAuthenticated() && (
+                <div data-toggle="modal" data-target="#myModal2">
+                  <h6 className="form-text text-center">
+                    <button
+                      id="read-more"
+                      className="btn btn-primary  position-absolute"
+                      style={{ bottom: "15px", right: "15px" }}
+                    >
+                      Buy
+                    </button>
+                  </h6>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -5,10 +5,13 @@ const orderSchema = new mongoose.Schema(
     name: {
       type: String,
     },
-    order: {
+    ingredients: {
       type: Array,
     },
     price: {
+      type: Number,
+    },
+    amount: {
       type: Number,
     },
     time: {
@@ -21,4 +24,4 @@ const orderSchema = new mongoose.Schema(
     collection: "orders",
   }
 );
-export default mongoose.model("Order", orderSchema);
+export default mongoose.model("Orders", orderSchema);

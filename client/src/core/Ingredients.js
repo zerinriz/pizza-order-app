@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { listIngredients } from "./../order/api-order";
 import IngredientsList from "./IngredientsList";
-
+import * as actions from "./../redux/actions/index";
+import { useSelector, useDispatch } from "react-redux";
 
 function Ingredients() {
   const [listOfIngredients, setListOfIngredients] = useState([]);
+  const dough = useSelector((state) => state.dough);
+  const ingredients = useSelector((state) => state.ingredients);
+  const sumOfPrices = useSelector((state) => state.price);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     listIngredients().then((data) => {
       if (data && data.error) {
         console.log(data.error);
       } else {
         setListOfIngredients(data);
-        console.log(data);
       }
     });
   }, []);
+
+  const onClick = () => {
+    var orderID = Math.floor(1000 + Math.random() * 9000);
+    dispatch(actions.addOrder(dough, ingredients, sumOfPrices,orderID));
+  };
 
   return (
     <div
@@ -37,24 +47,26 @@ function Ingredients() {
                         name={item.name}
                         key={item._id}
                         id={item._id}
+                        price={item.price}
                       />
                     ))}
                   </div>
                 </div>
-                <div className="col">
-                  <div className="p-3 ">Row column</div>
-                </div>
-          
               </div>
             </div>
-            <div class="modal-footer">
-                  <button type="button" class="btn btn-primary">
-                    +Add to cart
-                  </button>
-                </div>
+            <div className="modal-footer">
+              <div data-toggle="modal" data-target="#ingredientsModal">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={onClick}
+                >
+                  +Add to cart
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-        
       </div>
     </div>
   );

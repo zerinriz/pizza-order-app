@@ -43,4 +43,10 @@ const listOrders = () => {
     .catch((err) => console.log(err));
 };
 
-export { listDough, listIngredients, listOrders, create, update };
+const listAddress = () => {
+  return fetch(`${baseUrl}/address`, { method: "GET" })
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
+};
+
+export { listDough, listIngredients, listOrders, create, update, listAddress };

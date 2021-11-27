@@ -11,6 +11,9 @@ const ingredientsShema = new mongoose.Schema(
     type: {
       type: String,
     },
+    price: {
+      type: Number,
+    },
   },
   {
     collection: "ingredients",

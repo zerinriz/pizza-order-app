@@ -1,39 +1,30 @@
-import React, { useState,useEffect } from "react";
-import { create, listOrders } from "./../order/api-order";
-import { Link } from "react-router-dom";
+import React from "react";
+import * as actions from "./../redux/actions/index";
+import { useDispatch } from "react-redux";
 
-function Dough({ desc, name }) {
-  const [orderId, setOrderId] = useState([]);
+function Dough({ desc, name, price }) {
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log("1")
-    listOrders().then((data) => {
-      if (data && data.error) {
-        console.log(data.error);
-      } else {
-        setOrderId(data);
-        console.log(data[1]._id)
-      }
-    });
-  }, []);
-
-  const clickSubmit = () => {
-    const dough = {
-      name: name || undefined,
-      order: [],
-    };
-    create(dough);
-    console.log(dough);
+  const onClick = () => {
+    dispatch(actions.addDough(name));
+    dispatch(actions.addPrice(price));
   };
 
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
   });
+
   return (
-    <div className="card w-100" style={{ marginBottom: "10px" }}>
+    <div
+      className="card w-100"
+      style={{ marginBottom: "10px", position: "relative" }}
+    >
       <div className="card-body">
         <h5 className="card-title">{name}</h5>
-        <Link to={`/api/orders/${orderId}`}>
+        <form>
+          <h6 style={{ position: "absolute", right: "10px", top: "23px" }}>
+            {price}$
+          </h6>
           <button
             style={{ float: "right" }}
             type="button"
@@ -43,11 +34,11 @@ function Dough({ desc, name }) {
             title="Add ingredients"
             data-toggle="modal"
             data-target="#ingredientsModal"
-            onClick={clickSubmit}
+            onClick={onClick}
           >
             +Add
           </button>
-        </Link>
+        </form>
         <p className="card-text">{desc} </p>
       </div>
     </div>

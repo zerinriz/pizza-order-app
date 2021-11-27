@@ -1,10 +1,10 @@
-import Order from "./../models/order.model";
+import Orders from "./../models/order.model";
 import errorHandler from "../controllers/helpers/dbErrorHandler";
 import _ from "lodash";
 
 const create = (req, res, next) => {
-  const order = new Order(req.body);
-  order.save((err, result) => {
+  const orders = new Orders(req.body);
+  orders.save((err, result) => {
     if (err) {
       return res.status(400).json({
         error: errorHandler.getErrorMessage(err),
@@ -17,7 +17,7 @@ const create = (req, res, next) => {
 };
 
 const listOrder = (req, res) => {
-  Order.find((err, result) => {
+  Orders.find((err, result) => {
     if (err) {
       console.log(err);
     }

@@ -14,6 +14,9 @@ const typesOfDoughSchema = new mongoose.Schema(
     desc: {
       type: String,
     },
+    price: {
+      type: Number,
+    },
   },
   {
     collection: "typesOfDough",

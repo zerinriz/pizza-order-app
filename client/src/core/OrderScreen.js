@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { listOrders } from "./../order/api-order";
+import { useSelector } from "react-redux";
 import OrderList from "./OrderList";
 
 function OrderScreen() {
-  const [listOfOrder, setListOfOrder] = useState([]);
+  const order = useSelector((state) => state.order);
+  const [orderList, setOrderList] = useState([]);
 
   useEffect(() => {
-    listOrders().then((data) => {
-      if (data && data.error) {
-        console.log(data.error);
-      } else {
-        setListOfOrder(data);
-        console.log(data);
-      }
-    });
-  }, []);
-
+    setOrderList(order);
+  }, [order]);
+  
+  console.log(orderList);
   return (
-    <div class="row">
-      {listOfOrder.map((item) => (
-        <OrderList price={item.price} name={item.name} order={item.order}/>
+    <div className="row">
+      {orderList.map((item, index) => (
+        <OrderList
+          orderList={orderList}
+          setOrderList={setOrderList}
+          dough={item[0].name}
+          price={item[2].price}
+          ingredients={item[1].ingredients}
+          orderID={item[3].orderID}
+          key={index}
+        />
       ))}
     </div>
   );

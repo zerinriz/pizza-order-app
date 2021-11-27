@@ -9,7 +9,10 @@ import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
 import doughRoutes from "./routes/dough.routes";
 import ingredientsRoutes from "./routes/ingredients.routes";
-import orderRoutes from "./routes/order.routes"
+import orderRoutes from "./routes/order.routes";
+import addressRoutes from "./routes/address.routes";
+require("babel-core/register");
+require("babel-polyfill");
 
 const app = express();
 app.use(bodyParser.json());
@@ -23,6 +26,7 @@ app.use("/", authRoutes);
 app.use("/", doughRoutes);
 app.use("/", ingredientsRoutes);
 app.use("/", orderRoutes);
+app.use("/", addressRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).send(Template());

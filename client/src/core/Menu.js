@@ -25,9 +25,11 @@ function Menu() {
                 className="dropdown-menu"
                 aria-labelledby="dropdownMenu2"
               >
-                <button className="dropdown-item" type="button">
-                  Order History
-                </button>
+                <Link to={"/user/orderhistory/" + auth.isAuthenticated().user._id}>
+                  <button className="dropdown-item" type="button">
+                    Order History
+                  </button>
+                </Link>
                 <Link to="/">
                   <button
                     onClick={() => {
@@ -41,6 +43,7 @@ function Menu() {
                 </Link>
               </div>
             </div>
+            <Ingredients />
           </span>
         )}
         {!auth.isAuthenticated() && (

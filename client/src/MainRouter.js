@@ -3,7 +3,9 @@ import { Route, Switch } from "react-router-dom";
 import Home from "./core/Home";
 import Users from "./user/Users";
 import Menu from "./core/Menu";
-import IngredientsTest from "./core/IngredientsTest";
+import PrivateRoute from "./auth/PrivateRoute";
+import Address from "./user/Address";
+import OrderHistory from "./user/OrderHistory";
 
 const MainRouter = () => {
   return (
@@ -12,7 +14,8 @@ const MainRouter = () => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/users" component={Users} />
-        <Route exact path="/api/orders/:id" component={IngredientsTest} />
+        <Route exact path="/user/orderhistory/:userId" component={OrderHistory} />
+        <PrivateRoute path="/user/:userId" component={Address} />
       </Switch>
     </>
   );

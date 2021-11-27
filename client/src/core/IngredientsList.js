@@ -1,19 +1,25 @@
-import React, { useState } from "react";
-import { create, update } from "./../order/api-order";
+import React from "react";
+import { useDispatch } from "react-redux";
+import * as actions from "./../redux/actions/index";
 
-function IngredientsList({ name, id }) {
-  const [value, setValue] = useState([]);
+function IngredientsList({ name, id, price }) {
+  const dispatch = useDispatch();
 
-  function addIngredients() {
-    if (document.getElementById(id).checked) {
-      setValue(document.getElementById(id).value);
-      console.log(value);
+  function validate() {
+    const array = [];
+    var checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
+    for (var i = 0; i < checkboxes.length; i++) {
+      array.push(checkboxes[i].value);
     }
+    dispatch(actions.addSumOfPrices(price));
+    dispatch(actions.addIngredients(array));
   }
+
   return (
     <div className="form-check">
+      <h6 style={{ float: "right" }}>{price}$</h6>
       <input
-        onClick={addIngredients}
+        onClick={validate}
         className="form-check-input"
         type="checkbox"
         value={name}
