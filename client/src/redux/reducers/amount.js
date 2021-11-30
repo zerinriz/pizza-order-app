@@ -1,7 +1,7 @@
-const setAmount = (state = 0, action) => {
+const setAmount = (state = [], action) => {
   switch (action.type) {
     case "ADD_AMOUNT":
-      return action.amount ;
+      return [...state, action.amount];
     default:
       return state;
   }

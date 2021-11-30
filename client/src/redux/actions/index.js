@@ -49,13 +49,26 @@ export const addAmount = (amount) => {
   };
 };
 
-export const addFinalOrder = (dough, ingredients, price, amount) => {
+export const addFinalOrder = (dough, ingredients, price, amount,userID) => {
   return {
     type: "ADD_FINALORDER",
     dough: dough,
     ingredients: ingredients,
     price: price,
     amount: amount,
+    userID:userID
   };
 };
 
+export const addUserId = (userId) => {
+  return {
+    type: "ADD_USERID",
+    userId:userId
+  };
+};
+export const addFinalSum = (finalSum) => {
+  return {
+    type: "ADD_FINALSUM",
+    finalSum:finalSum
+  };
+};

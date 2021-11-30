@@ -14,7 +14,7 @@ const MainRouter = () => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/users" component={Users} />
-        <Route exact path="/user/orderhistory/:userId" component={OrderHistory} />
+        <Route exact path="/orderHistory/:userId" component={OrderHistory} />
         <PrivateRoute path="/user/:userId" component={Address} />
       </Switch>
     </>

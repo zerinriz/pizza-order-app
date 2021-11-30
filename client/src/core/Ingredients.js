@@ -23,7 +23,7 @@ function Ingredients() {
 
   const onClick = () => {
     var orderID = Math.floor(1000 + Math.random() * 9000);
-    dispatch(actions.addOrder(dough, ingredients, sumOfPrices,orderID));
+    dispatch(actions.addOrder(dough, ingredients, sumOfPrices, orderID));
   };
 
   return (
@@ -44,6 +44,7 @@ function Ingredients() {
                   <div className="p-3 ">
                     {listOfIngredients.map((item) => (
                       <IngredientsList
+                        gluten={item.gluten_free}
                         name={item.name}
                         key={item._id}
                         id={item._id}

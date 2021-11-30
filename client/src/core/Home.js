@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const [listOfDough, setListOfDough] = useState([]);
-  const [buyDough, setBuyDough] = useState([]);
 
   useEffect(() => {
     listDough().then((data) => {
@@ -31,8 +30,7 @@ const Home = () => {
             <h3>Pick a dough</h3>
             {listOfDough.map((item) => (
               <Dough
-                buyDough={buyDough}
-                setBuyDough={setBuyDough}
+                gluten={item.gluten_free}
                 key={item._id}
                 desc={item.desc}
                 name={item.name}
@@ -43,17 +41,17 @@ const Home = () => {
           </div>
           <div
             className="col p-3 border bg-light position-relative"
-            style={{ marginLeft: "5px", maxHeight: "740px" }}
+            style={{ marginLeft: "5px" }}
           >
             <h3>Order</h3>
-            <div className="scroll" style={{ maxHeight: "85%" }}>
+            <div className="scroll" style={{ maxHeight: "75%" }}>
               <OrderScreen />
               {auth.isAuthenticated() && (
                 <Link to={"/user/" + auth.isAuthenticated().user._id}>
                   <button
                     id="read-more"
                     className="btn btn-primary  position-absolute"
-                    style={{ bottom: "15px", right: "15px" }}
+                    style={{ width: "100px", bottom: "15px", right: "15px" }}
                   >
                     Buy
                   </button>
@@ -65,7 +63,7 @@ const Home = () => {
                     <button
                       id="read-more"
                       className="btn btn-primary  position-absolute"
-                      style={{ bottom: "15px", right: "15px" }}
+                      style={{ width: "100px", bottom: "15px", right: "15px" }}
                     >
                       Buy
                     </button>

@@ -1,8 +1,13 @@
 import express from "express";
 import orderCtrl from "../controllers/order.controller";
+import userCtrl from "../controllers/user.controller";
 
 const router = express.Router();
 
-router.route("/api/orders").get(orderCtrl.listOrder).post(orderCtrl.create);
+router.route("/orders").post(orderCtrl.createAddress)
+
+router.route("/orders/:userId").get(orderCtrl.listOrders, userCtrl.read);
+
+router.param("userId", userCtrl.userByID);
 
 export default router;

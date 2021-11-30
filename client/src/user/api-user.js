@@ -14,13 +14,13 @@ const create = (user) => {
 };
 
 const list = () => {
-  return fetch(`${baseUrl}/api/users`, { method: "GET" })
+  return fetch(`${baseUrl}/address`, { method: "GET" })
     .then((response) => response.json())
     .catch((err) => console.log(err));
 };
 
 const read = (params, token) => {
-  return fetch(`${baseUrl}/api/users/${params.userId}`, {
+  return fetch(`${baseUrl}/address/${params.userId}`, {
     method: "GET",
     headers: {
       Accept: "application/json",

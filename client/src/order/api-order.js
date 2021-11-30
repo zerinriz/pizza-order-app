@@ -37,14 +37,14 @@ const listIngredients = () => {
     .catch((err) => console.log(err));
 };
 
-const listOrders = () => {
-  return fetch(`${baseUrl}/api/orders`, { method: "GET" })
+const listOrders = (params) => {
+  return fetch(`${baseUrl}/orders/${params}`, { method: "GET" })
     .then((response) => response.json())
     .catch((err) => console.log(err));
 };
 
-const listAddress = () => {
-  return fetch(`${baseUrl}/address`, { method: "GET" })
+const listAddress = (params) => {
+  return fetch(`${baseUrl}/address/${params}`, { method: "GET" })
     .then((response) => response.json())
     .catch((err) => console.log(err));
 };

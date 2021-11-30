@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
-    name: {
+    dough: {
       type: String,
     },
     ingredients: {
@@ -11,7 +11,7 @@ const orderSchema = new mongoose.Schema(
     price: {
       type: Number,
     },
-    amount: {
+    counter: {
       type: Number,
     },
     time: {

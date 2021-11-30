@@ -1,8 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as actions from "./../redux/actions/index";
+import glutenImg from "./../assets/images/gluten.png";
 
-function IngredientsList({ name, id, price }) {
+function IngredientsList({ name, id, price, gluten }) {
   const dispatch = useDispatch();
 
   function validate() {
@@ -26,7 +27,18 @@ function IngredientsList({ name, id, price }) {
         id={id}
       />
       <label className="form-check-label" htmlFor="flexCheckDefault">
-        <h6>{name}</h6>
+        <h6>
+          {name}
+          {"  "}
+          {gluten && (
+            <img
+              src={glutenImg}
+              style={{ height: "20px", width: "20px" }}
+              className="img-fluid"
+              alt="Responsive image"
+            />
+          )}
+        </h6>
       </label>
     </div>
   );

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import auth from "./../auth/auth-helper";
-import {  Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { signin } from "./api-auth";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPizzaSlice } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 function Signin() {
   const [values, setValues] = useState({
@@ -14,8 +14,23 @@ function Signin() {
     redirectToReferrer: false,
   });
 
+  const order = useSelector((state) => state.order);
+  let buffer = [];
+  if (!order.length) {
+    buffer.push(
+      <Link key="1" to={"/"}>
+        <h2 className="bi bi-cart" style={{ float: "left" }} />
+      </Link>
+    );
+  } else {
+    buffer.push(
+      <Link key="2" to={"/"}>
+        <h2 className="bi bi-cart-fill" style={{ float: "left" }} />
+      </Link>
+    );
+  }
+
   const clickSubmit = () => {
-    console.log(values.name);
     const user = {
       name: values.name || undefined,
       password: values.password || undefined,
@@ -41,7 +56,8 @@ function Signin() {
     return <Redirect to={"/"} />;
   }
   return (
-    <div>
+    <div style={{ width: "120px" }}>
+      <div style={{ marginRight: "10px", float: "left" }}>{buffer}</div>
       <button
         type="button"
         className="btn btn-primary"

@@ -1,28 +1,46 @@
 import Orders from "./../models/order.model";
-import errorHandler from "../controllers/helpers/dbErrorHandler";
-import _ from "lodash";
+import User from "../models/user.model";
 
-const create = (req, res, next) => {
-  const orders = new Orders(req.body);
-  orders.save((err, result) => {
-    if (err) {
-      return res.status(400).json({
-        error: errorHandler.getErrorMessage(err),
-      });
-    }
-    res.status(200).json({
-      message: "Successfully added order!",
-    });
-  });
+const createAddress = async (req, res, next) => {
+  const { dough, ingredients, price, counter, userId } = req.body;
+
+  let newOrder = new Orders({ dough, ingredients, price, counter });
+  try {
+    await newOrder.save();
+  } catch (error) {
+    res.status(500).json({ message: "Could not save order" });
+    const err = new Error("Could not save order", 500);
+    return next(err);
+  }
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+  user.orders.push(newOrder);
+  await user.save();
+
+  try {
+    user = await User.findById(userId).populate("orders");
+  } catch (error) {
+    console.log(error);
+  }
+  console.log("napravio sam adresu");
+  res.status(200).json({ orders: newOrder, data: user.orders });
 };
 
-const listOrder = (req, res) => {
-  Orders.find((err, result) => {
-    if (err) {
-      console.log(err);
-    }
-    res.status(200).json(result);
-  });
+const listOrders = async (req, res, next) => {
+  const userId = req.url.match(/^\/orders\/(.+)/)[1];
+  console.log(userId);
+  let user;
+  try {
+    user = await User.findById(userId).populate("orders");
+  } catch (error) {
+    return next(error);
+  }
+  res.json({ data: user.orders });
 };
 
-export default { listOrder, create };
+export default { createAddress, listOrders };

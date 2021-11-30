@@ -2,7 +2,7 @@ import React from 'react';
 
 function TextList({item}) {
     return (
-        <h6>
+        <h6 className="text-center">
             {item}
         </h6>
     );

@@ -2,9 +2,8 @@ import Address from "../models/address.model";
 import User from "../models/user.model";
 
 const createAddress = async (req, res, next) => {
-  const { address, floor } = req.body;
-  const id = req.userData.userId;
-  console.log( req.userData.userId)
+  const { address, floor, userId } = req.body;
+
   let newAddress = new Address({ address, floor });
   try {
     await newAddress.save();
@@ -15,28 +14,32 @@ const createAddress = async (req, res, next) => {
   }
   let user;
   try {
-    user = await User.findById(id);
+    user = await User.findById(userId);
   } catch (error) {
     console.log(error);
     return next(error);
   }
-  user.address.push(newAddress._id);
+  user.addresses.push(newAddress);
   await user.save();
+
   try {
-    user = await User.findById(id).populate("address");
+    user = await User.findById(userId).populate("addresses");
   } catch (error) {
     console.log(error);
   }
-  res.status(200).json({ address: newAddress, data: user.address });
+  console.log("napravio sam adresu");
+  res.status(200).json({ address: newAddress, data: user.addresses });
 };
 
-const listAddress = (req, res) => {
-  Address.find((err, result) => {
-    if (err) {
-      console.log(err);
-    }
-    res.status(200).json(result);
-  });
+const listAddress = async (req, res, next) => {
+  const userId = req.url.match(/^\/address\/(.+)/)[1];
+  let user;
+  try {
+    user = await User.findById(userId).populate("addresses");
+  } catch (error) {
+    return next(error);
+  }
+  res.json({ data: user.addresses });
 };
 
 export default { createAddress, listAddress };
