@@ -26,7 +26,6 @@ const list = (req, res) => {
     res.json(users);
   }).select("name email updated created");
 };
-
 const userByID = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
     if (err || !user)
@@ -35,7 +34,6 @@ const userByID = (req, res, next, id) => {
     next();
   });
 };
-
 const read = (req, res) => {
   req.profile.hashed_password = undefined;
   req.profile.salt = undefined;
@@ -70,15 +68,4 @@ const remove = (req, res, next) => {
   });
 };
 
-const getOrdersById = async (req, res, next) => {
-  const id = req.userData.userId;
-  let user;
-  try {
-    user = await User.findById(id).populate("Orders");
-  } catch (error) {
-    return next(error);
-  }
-  res.json({ data: user.orders });
-};
-
-export default { create, userByID, read, list, remove, update, getOrdersById };
+export default { create, userByID, read, list, remove, update };

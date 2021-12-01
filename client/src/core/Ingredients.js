@@ -9,6 +9,7 @@ function Ingredients() {
   const dough = useSelector((state) => state.dough);
   const ingredients = useSelector((state) => state.ingredients);
   const sumOfPrices = useSelector((state) => state.price);
+  const [disable, setDisable] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,6 +21,14 @@ function Ingredients() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (!ingredients.length) {
+      setDisable(true);
+    } else {
+      setDisable(false);
+    }
+  }, [ingredients]);
 
   const onClick = () => {
     var orderID = Math.floor(1000 + Math.random() * 9000);
@@ -58,6 +67,7 @@ function Ingredients() {
             <div className="modal-footer">
               <div data-toggle="modal" data-target="#ingredientsModal">
                 <button
+                  disabled={disable}
                   type="button"
                   className="btn btn-primary"
                   onClick={onClick}

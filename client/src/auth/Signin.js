@@ -95,7 +95,7 @@ function Signin() {
                         id="exampleInputName"
                         type="name"
                         label="name"
-                        value={values.name}
+                        value={values.name.replace(/[^\w\s]/gi, "")}
                         onChange={handleChange("name")}
                         margin="normal"
                         className="form-control"

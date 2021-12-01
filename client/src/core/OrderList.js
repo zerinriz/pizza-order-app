@@ -17,6 +17,14 @@ function OrderList({ dough, ingredients, price }) {
     setDisable(true);
   }
 
+  function decrement() {
+    if (counter === 0) {
+      setCounter(0);
+    } else {
+      setCounter(counter - 1);
+    }
+  }
+
   return (
     <div className="col-sm-12">
       <div className="card w-90" style={{ marginBottom: "10px" }}>
@@ -60,7 +68,7 @@ function OrderList({ dough, ingredients, price }) {
               disabled={disable}
               type="button"
               className="btn-sm btn-primary"
-              onClick={() => setCounter(counter - 1)}
+              onClick={decrement}
             >
               -
             </button>

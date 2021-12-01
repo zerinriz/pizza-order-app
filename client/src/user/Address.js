@@ -189,7 +189,7 @@ function Address() {
                   marginLeft: "10%",
                   width: "80%",
                   marginBottom: "20px",
-                  marginTop: "2%",
+                  marginTop: "6%",
                 }}
                 className="form-control"
                 id="exampleFormControlTextarea1"

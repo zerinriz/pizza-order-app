@@ -5,6 +5,8 @@ import Signin from "../auth/Signin";
 import SignUp from "../user/Signup";
 import Ingredients from "./../core/Ingredients";
 import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPizzaSlice } from "@fortawesome/free-solid-svg-icons";
 
 function Menu() {
   const order = useSelector((state) => state.order);
@@ -26,7 +28,14 @@ function Menu() {
   return (
     <nav className="navbar navbar-light bg-light">
       <div className="container-fluid">
-        <span className="navbar-brand mb-0 h1">Pizza Order App</span>
+        <div>
+          <FontAwesomeIcon
+            size="2x"
+            icon={faPizzaSlice}
+            style={{ marginRight: "10px" }}
+          />
+          <h4 className="navbar-brand mb-0 h1">Pizza Order App</h4>
+        </div>
         {auth.isAuthenticated() && (
           <span>
             <div className="dropdown" style={{ width: "70px" }}>

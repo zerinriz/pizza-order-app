@@ -21,7 +21,7 @@ function Signup() {
     setRedirect(false);
   });
 
-  function myFunction() { 
+  function myFunction() {
     var x = document.getElementById("password");
     if (x.type === "password") {
       x.type = "text";
@@ -38,7 +38,7 @@ function Signup() {
       x.type = "password";
     }
   }
-  
+
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
@@ -97,7 +97,7 @@ function Signup() {
                         id="exampleInputname"
                         type="name"
                         label="name"
-                        value={values.name}
+                        value={values.name.replace(/[^\w\s]/gi, "")}
                         onChange={handleChange("name")}
                         margin="normal"
                         className="form-control"
@@ -163,7 +163,10 @@ function Signup() {
                         <label htmlFor="passwordTwo" className="form-label">
                           Confirm Password
                         </label>
-                        <div className="wrapper" style={{ position: "relative" }}>
+                        <div
+                          className="wrapper"
+                          style={{ position: "relative" }}
+                        >
                           <input
                             id="confirm_password"
                             type="password"
