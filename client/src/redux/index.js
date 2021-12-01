@@ -5,8 +5,9 @@ import address from "./reducers/address";
 import price from "./reducers/price";
 import amount from "./reducers/amount";
 import finalorder from "./reducers/finalorder";
-import userId from "./reducers/userId"
-import finalSum from "./reducers/finalSum"
+import userId from "./reducers/userId";
+import finalSum from "./reducers/finalSum";
+import count from "./reducers/count";
 import { combineReducers } from "redux";
 
 const allReducers = combineReducers({
@@ -19,6 +20,7 @@ const allReducers = combineReducers({
   finalorder,
   userId,
   finalSum,
+  count,
 });
 
 export default allReducers;

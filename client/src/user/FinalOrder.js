@@ -1,9 +1,20 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import * as actions from "./../redux/actions/index";
 import FinalOrderList from "./FinalOrderList";
 
 function FinalOrder() {
   const finalOrder = useSelector((state) => state.finalorder);
+  const [disable, setDisable] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!finalOrder.length) {
+      setDisable(true);
+    } else {
+      setDisable(false);
+    }
+  }, []);
 
   return (
     <div>
@@ -20,11 +31,20 @@ function FinalOrder() {
           ))}
         </div>
       </div>
+
       <button
-        style={{ position: "absolute", bottom: "-190px", left: "0px" }}
+        style={{ position: "absolute", bottom: "0px", left: "0px" }}
+        disabled={disable}
         type="button"
         className="btn btn-primary btn-md btn-block"
-        onClick={() => alert("You have placed your order!")}
+        onClick={() => {
+          dispatch(actions.addCount(1));
+          alert("You have successfully ordered!");
+          setTimeout(() => {
+            window.location = "http://localhost:3000/";
+            dispatch(actions.addCount(0));
+          }, 1000);
+        }}
       >
         Order
       </button>

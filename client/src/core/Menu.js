@@ -44,9 +44,7 @@ function Menu() {
                 className="dropdown-menu"
                 aria-labelledby="dropdownMenu2"
               >
-                <Link
-                  to={"/orderHistory/" + auth.isAuthenticated().user._id}
-                >
+                <Link to={"/orderHistory/" + auth.isAuthenticated().user._id}>
                   <button className="dropdown-item" type="button">
                     Order History
                   </button>
@@ -55,6 +53,7 @@ function Menu() {
                   <button
                     onClick={() => {
                       auth.clearJWT();
+                      window.location.reload();
                     }}
                     className="dropdown-item"
                     type="button"

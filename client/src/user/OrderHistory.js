@@ -6,7 +6,6 @@ const axios = require("axios");
 function OrderHistory() {
   const [list, setList] = useState([]);
   const userId = window.location.pathname.match(/^\/orderHistory\/(.+)/)[1];
-  console.log(userId);
   useEffect(() => {
     listOrders(userId).then((data) => {
       if (data && data.error) {
