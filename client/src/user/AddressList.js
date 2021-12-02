@@ -1,12 +1,16 @@
 import React from "react";
+import { removeAddress } from "./../order/api-order";
 
-function AddressList({ address, floor }) {
+
+function AddressList({ address, floor,id }) {
+
+  const deleteAddress = () => {
+    removeAddress(id);
+  };
+  
   return (
     <div className="col-sm">
-      <div
-        className="card"
-        style={{ margin: "5px", width: "15rem" }}
-      >
+      <div className="card" style={{ margin: "5px", width: "15rem" }}>
         <div className="card-body">
           <input
             style={{ left: "25px", top: "0px", position: "absolute" }}
@@ -21,6 +25,12 @@ function AddressList({ address, floor }) {
           <p className=" text-center" style={{ marginTop: "-20px" }}>
             Floor: {floor}
           </p>
+          <button
+            className="btn-sm btn-primary"
+            onClick={() => deleteAddress()}
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>

@@ -33,7 +33,11 @@ function Ingredients() {
   const onClick = () => {
     var orderID = Math.floor(1000 + Math.random() * 9000);
     dispatch(actions.addOrder(dough, ingredients, sumOfPrices, orderID));
+    $('input:checkbox').prop('checked', false);
+    dispatch(actions.addIngredients([]))
   };
+
+
 
   return (
     <div

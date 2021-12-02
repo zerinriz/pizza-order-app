@@ -42,4 +42,25 @@ const listAddress = async (req, res, next) => {
   res.json({ data: user.addresses });
 };
 
-export default { createAddress, listAddress };
+const removeAddress = (req, res, next) => {
+  let address = req.addresses;
+  console.log(address);
+  address.remove((err, deletedAddress) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler.getErrorMessage(err),
+      });
+    }
+    res.json(deletedAddress);
+  });
+};
+const addressByID = (req, res, next, id) => {
+  Address.findById(id).exec((err, user) => {
+    if (err || !user)
+      return res.status("400").json({ error: "Address not found" });
+    req.addresses = user;
+    next();
+  });
+};
+
+export default { createAddress, listAddress, removeAddress, addressByID };

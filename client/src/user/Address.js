@@ -21,22 +21,26 @@ function Address() {
   const finalSum = useSelector((state) => state.finalSum);
 
   async function addAddress() {
-    await axios
-      .post(
-        `${baseUrl}/address`,
-        { address: address, floor: floor, userId: userId },
+    if (address === "" || floor === 0) {
+      alert("Must add floor number or address");
+    } else {
+      await axios
+        .post(
+          `${baseUrl}/address`,
+          { address: address, floor: floor, userId: userId },
 
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res.data.data);
-        setList(res.data.data);
-        console.log(list);
-      });
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data.data);
+          setList(res.data.data);
+          console.log(list);
+        });
+    }
   }
 
   useEffect(() => {
@@ -45,10 +49,9 @@ function Address() {
         console.log(data.error);
       } else {
         setList(data.data);
-        console.log(list);
       }
     });
-  }, []);
+  }, [list]);
 
   return (
     <div
@@ -65,6 +68,7 @@ function Address() {
                   address={item.address}
                   floor={item.floor}
                   key={index}
+                  id={item._id}
                 />
               ))}
               <div className="col-sm">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import * as actions from "./../redux/actions/index";
 import glutenImg from "./../assets/images/gluten.png";
@@ -6,9 +6,11 @@ import glutenImg from "./../assets/images/gluten.png";
 function IngredientsList({ name, id, price, gluten }) {
   const dispatch = useDispatch();
 
+
   function validate() {
     const array = [];
     var checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
+
     for (var i = 0; i < checkboxes.length; i++) {
       array.push(checkboxes[i].value);
     }
