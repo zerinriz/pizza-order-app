@@ -13,16 +13,17 @@ function Address() {
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [list, setList] = useState([]);
+  const [counter, setCounter] = useState(0);
+  const [errorText, setErrorText] = useState("");
   var token = sessionStorage.getItem("token");
   const tokenParse = JSON.parse(token);
   const userId = tokenParse.user._id;
   const dispatch = useDispatch();
-  dispatch(actions.addUserId(userId));
-  const finalSum = useSelector((state) => state.finalSum);
+  const amount = useSelector((state) => state.amount);
 
   async function addAddress() {
     if (address === "" || floor === 0) {
-      alert("Must add floor number or address");
+      setErrorText("Missing floor number or address");
     } else {
       await axios
         .post(
@@ -40,18 +41,27 @@ function Address() {
           setList(res.data.data);
           console.log(list);
         });
+      setShow(true);
+      setAddress("");
+      setFloor(0);
+      setErrorText("");
     }
   }
+
+  useEffect(() => {
+    dispatch(actions.addUserId(userId));
+  }, [userId]);
 
   useEffect(() => {
     listAddress(userId).then((data) => {
       if (data && data.error) {
         console.log(data.error);
       } else {
+        setCounter(0);
         setList(data.data);
       }
     });
-  }, [list]);
+  }, [counter]);
 
   return (
     <div
@@ -65,6 +75,7 @@ function Address() {
             <div className="row">
               {list.map((item, index) => (
                 <AddressList
+                  setCounter={setCounter}
                   address={item.address}
                   floor={item.floor}
                   key={index}
@@ -96,10 +107,7 @@ function Address() {
                         <span>
                           <div className="input-group input-group-sm mb-3">
                             <div className="input-group-prepend">
-                              <span
-                                className="input-group-text"
-                                id="inputGroup-sizing-sm"
-                              >
+                              <span className="input-group-text" id="Address">
                                 Address
                               </span>
                             </div>
@@ -108,6 +116,7 @@ function Address() {
                               className="form-control"
                               aria-label="Small"
                               aria-describedby="inputGroup-sizing-sm"
+                              value={address}
                               onChange={(e) => {
                                 setAddress(e.target.value);
                               }}
@@ -115,10 +124,7 @@ function Address() {
                           </div>
                           <div className="input-group input-group-sm mb-3">
                             <div className="input-group-prepend">
-                              <span
-                                className="input-group-text"
-                                id="inputGroup-sizing-sm"
-                              >
+                              <span className="input-group-text" id="Floor">
                                 Floor
                               </span>
                             </div>
@@ -127,10 +133,19 @@ function Address() {
                               className="form-control"
                               aria-label="Small"
                               aria-describedby="inputGroup-sizing-sm"
+                              value={floor}
                               onChange={(e) => setFloor(e.target.value)}
                             />
                           </div>
-
+                          <div
+                            style={{
+                              float: "left",
+                              marginTop: "-10px",
+                              marginBottom: "5px",
+                            }}
+                          >
+                            {errorText}
+                          </div>
                           <div
                             style={{
                               float: "right",
@@ -171,7 +186,7 @@ function Address() {
           >
             <FinalOrder />
           </div>
-          <h4 style={{ textAlign: "center" }}>Total: {finalSum}$</h4>
+          <h4 style={{ textAlign: "center" }}>Total:{amount}$</h4>
         </div>
         <div
           className="card-footer"

@@ -1,13 +1,13 @@
 import React from "react";
 import { removeAddress } from "./../order/api-order";
 
-
-function AddressList({ address, floor,id }) {
+function AddressList({ address, floor, id,setCounter }) {
 
   const deleteAddress = () => {
+    setCounter(1)
     removeAddress(id);
   };
-  
+
   return (
     <div className="col-sm">
       <div className="card" style={{ margin: "5px", width: "15rem" }}>

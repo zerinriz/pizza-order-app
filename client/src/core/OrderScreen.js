@@ -5,21 +5,25 @@ import OrderList from "./OrderList";
 
 function OrderScreen() {
   const order = useSelector((state) => state.order);
-  const amount = useSelector((state) => state.amount);
+  const [totalAmount, setTotalAmount] = useState([]);
   const [orderList, setOrderList] = useState([]);
+  const [count, setCount] = useState(-1);
+  const [sumAll, setSumAll] = useState(0);
 
   useEffect(() => {
     setOrderList(order);
-  }, [order, amount]);
-
-  const sum = amount.reduce((a, b) => a + b, 0);
-  const finalSum = sum + 5;
+    setTotalAmount([...totalAmount, 0]);
+    setCount(count + 1);
+  }, [order]);
 
   return (
     <div>
       <div className="row">
         {orderList.map((item, index) => (
           <OrderList
+            setSumAll={setSumAll}
+            count={count}
+            totalAmount={totalAmount}
             orderList={orderList}
             setOrderList={setOrderList}
             dough={item[0].name}
@@ -30,7 +34,7 @@ function OrderScreen() {
           />
         ))}
       </div>
-      <FinalSum finalSum={finalSum} />
+      <FinalSum sumAll={sumAll} />
     </div>
   );
 }

@@ -21,6 +21,15 @@ export const addOrder = (order, dough, price, orderID) => {
   };
 };
 
+export const removeOrder = (order) => {
+  return {
+    type: "REMOVE_ORDER",
+    order: order,
+
+  };
+};
+
+
 export const addAdress = (address, floor) => {
   return {
     type: "ADD_ADRESS",
@@ -76,6 +85,13 @@ export const addFinalSum = (finalSum) => {
 export const addCount = (count) => {
   return {
     type: "ADD_COUNT",
+    count: count,
+  };
+};
+
+export const addCountTwo = (count) => {
+  return {
+    type: "ADD_COUNTTWO",
     count: count,
   };
 };

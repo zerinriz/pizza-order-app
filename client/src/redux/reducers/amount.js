@@ -1,7 +1,7 @@
 const setAmount = (state = [], action) => {
   switch (action.type) {
     case "ADD_AMOUNT":
-      return [...state, action.amount];
+      return action.amount;
     default:
       return state;
   }

@@ -1,21 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextList from "./TextList";
 import * as actions from "./../redux/actions/index";
-import { useDispatch } from "react-redux";
-import auth from "./../auth/auth-helper";
-const axios = require("axios");
+import { useDispatch, useSelector } from "react-redux";
 
-function OrderList({ dough, ingredients, price }) {
-  const [counter, setCounter] = useState(1);
-  const [disable, setDisable] = useState(false);
+function OrderList({
+  dough,
+  ingredients,
+  price,
+  totalAmount,
+  count,
+  setSumAll,
+}) {
+  const countTwo = useSelector((state) => state.countTwo);
   const dispatch = useDispatch();
-  const sumPrice = price * counter;
+  const [counter, setCounter] = useState(1);
 
-  function onClick() {
-    dispatch(actions.addFinalOrder(dough, ingredients, sumPrice, counter));
-    dispatch(actions.addAmount(sumPrice));
-    setDisable(true);
-  }
+  const sum = price * counter;
+
+  useEffect(() => {
+    if (countTwo === 1) {
+      dispatch(actions.addFinalOrder(dough, ingredients, price, counter));
+    }
+  }, [countTwo]);
+
+  useEffect(() => {
+    totalAmount[count] = sum;
+    dispatch(actions.addFinalSum(totalAmount));
+  }, [counter]);
+
+  useEffect(() => {
+    setSumAll(totalAmount.reduce((a, b) => a + b, 0));
+  }, [counter]);
 
   function decrement() {
     if (counter === 0) {
@@ -29,9 +44,7 @@ function OrderList({ dough, ingredients, price }) {
     <div className="col-sm-12">
       <div className="card w-90" style={{ marginBottom: "10px" }}>
         <h6 className="card-header" style={{ textAlign: "center" }}>
-          {dough}
-          {"  "}
-          {sumPrice}$
+          {dough} {price}$
         </h6>
 
         <div className="card-body">
@@ -46,10 +59,11 @@ function OrderList({ dough, ingredients, price }) {
         >
           <div className="btn-group">
             <button
-              disabled={disable}
               type="button"
               className="btn-sm btn-primary"
-              onClick={() => setCounter(counter + 1)}
+              onClick={() => {
+                setCounter(counter + 1);
+              }}
             >
               +
             </button>
@@ -65,36 +79,12 @@ function OrderList({ dough, ingredients, price }) {
               {counter}
             </h6>
             <button
-              disabled={disable}
               type="button"
               className="btn-sm btn-primary"
               onClick={decrement}
             >
               -
             </button>
-            {!auth.isAuthenticated() && (
-              <div data-toggle="modal" data-target="#myModal2">
-                <button
-                  style={{ marginLeft: "5px" }}
-                  type="button"
-                  className="btn-sm btn-primary"
-                  disabled={disable}
-                >
-                  Confirm
-                </button>
-              </div>
-            )}
-            {auth.isAuthenticated() && (
-              <button
-                style={{ marginLeft: "5px" }}
-                type="button"
-                className="btn-sm btn-primary"
-                disabled={disable}
-                onClick={onClick}
-              >
-                Confirm
-              </button>
-            )}
           </div>
         </div>
       </div>

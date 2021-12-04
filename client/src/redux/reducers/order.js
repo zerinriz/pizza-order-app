@@ -10,6 +10,8 @@ const order = (state = [], action) => {
           { orderID: action.orderID },
         ],
       ];
+    case "REMOVE_ORDER":
+      return [];
     default:
       return state;
   }

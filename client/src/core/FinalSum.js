@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import * as actions from "./../redux/actions/index";
 
-function FinalSum({ finalSum }) {
+function FinalSum({ sumAll }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(actions.addFinalSum(finalSum));
-  }, [finalSum]);
+    dispatch(actions.addAmount(sumAll));
+  }, [sumAll]);
 
   return (
     <div className="container-fluid">
@@ -20,7 +20,7 @@ function FinalSum({ finalSum }) {
         className="border-top my-3"
       >
         <h4 style={{ float: "left" }}>Total</h4>
-        <h6 style={{ float: "right" }}>{finalSum}$</h6>
+        <h6 style={{ float: "right" }}>{sumAll+5}$</h6>
       </div>
     </div>
   );

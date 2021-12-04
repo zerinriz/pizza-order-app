@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { listDough } from "./../order/api-order";
+import * as actions from "./../redux/actions/index";
+import { useDispatch, useSelector } from "react-redux";
 import Dough from "./Dough";
 import OrderScreen from "./OrderScreen";
 import "./.././assets/styles/index.css";
 import auth from "./../auth/auth-helper";
-import { Link } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 
 const Home = () => {
   const [listOfDough, setListOfDough] = useState([]);
+  const [redirectNow, setRedirectNow] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const order = useSelector((state) => state.order);
 
+  const dispatch = useDispatch();
   useEffect(() => {
     listDough().then((data) => {
       if (data && data.error) {
@@ -18,6 +24,19 @@ const Home = () => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (!order.length) {
+      setDisabled(true);
+      console.log(order);
+    } else {
+      setDisabled(false);
+    }
+  }, [order]);
+
+  if (redirectNow) {
+    return <Redirect to={"/user/" + auth.isAuthenticated().user._id} />;
+  }
 
   return (
     <div className="container">
@@ -47,15 +66,23 @@ const Home = () => {
             <div className="scroll" style={{ maxHeight: "75%" }}>
               <OrderScreen />
               {auth.isAuthenticated() && (
-                <Link to={"/user/" + auth.isAuthenticated().user._id}>
-                  <button
-                    id="read-more"
-                    className="btn btn-primary  position-absolute"
-                    style={{ width: "100px", bottom: "15px", right: "15px" }}
-                  >
-                    Buy
-                  </button>
-                </Link>
+                <button
+                  disabled={disabled}
+                  id="read-more"
+                  className="btn btn-primary  position-absolute"
+                  style={{ width: "100px", bottom: "15px", right: "15px" }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(actions.addCountTwo(1));
+                    setTimeout(() => {
+                      dispatch(actions.removeOrder([]));
+                      setRedirectNow(true);
+                      dispatch(actions.addCountTwo(0));
+                    }, 500);
+                  }}
+                >
+                  Buy
+                </button>
               )}
               {!auth.isAuthenticated() && (
                 <div data-toggle="modal" data-target="#myModal2">
@@ -78,4 +105,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withRouter(Home);
