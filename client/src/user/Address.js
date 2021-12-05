@@ -15,11 +15,41 @@ function Address() {
   const [list, setList] = useState([]);
   const [counter, setCounter] = useState(0);
   const [errorText, setErrorText] = useState("");
+  const [disable, setDisable] = useState(false);
   var token = sessionStorage.getItem("token");
   const tokenParse = JSON.parse(token);
   const userId = tokenParse.user._id;
   const dispatch = useDispatch();
   const amount = useSelector((state) => state.amount);
+  const finalOrder = useSelector((state) => state.finalorder);
+
+  useEffect(() => {
+    if (!finalOrder.length) {
+      setDisable(true);
+    } else {
+      setDisable(false);
+    }
+  }, []);
+
+  async function addFinalOrder() {
+    var token = sessionStorage.getItem("token");
+    const tokenParse = JSON.parse(token);
+    const userId = tokenParse.user._id;
+    await axios.post(
+      `${baseUrl}/orders`,
+
+      {
+        data: finalOrder,
+        userId,
+      },
+
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
 
   async function addAddress() {
     if (address === "" || floor === 0) {
@@ -192,33 +222,58 @@ function Address() {
           className="card-footer"
           style={{ height: "30%", position: "relative" }}
         >
-          <div
-            className="container-fluid"
-            style={{ position: "absolute", top: "0px" }}
-          >
-            <div className="form-group" style={{ position: "relative" }}>
-              <label
-                htmlFor="exampleFormControlTextarea1"
-                style={{ position: "absolute", left: "-15px" }}
-              >
-                <h6 style={{ float: "left" }}>Notes:</h6>
+          <div className="container-fluid">
+            <div
+              className="form-group"
+              style={{ display: "flex", position: "relative" }}
+            >
+              <label htmlFor="exampleFormControlTextarea1">
+                <h6>Notes:</h6>
               </label>
               <textarea
                 style={{
-                  marginLeft: "10%",
-                  width: "80%",
+                  marginLeft: "10px",
+                  width: "90%",
                   marginBottom: "20px",
-                  marginTop: "6%",
                 }}
                 className="form-control"
                 id="exampleFormControlTextarea1"
                 rows="3"
                 onChange={(e) => setNotes(e.target.value)}
               ></textarea>
+            </div>
+            <button
+              disabled={disable}
+              style={{ marginTop: "-15px" }}
+              type="button"
+              data-toggle="modal"
+              data-target="#exampleModalCenter"
+              className="btn btn-primary btn-md btn-block"
+              onClick={() => {
+                addFinalOrder();
+                setTimeout(() => {
+                  window.location = "http://localhost:3000/";
+                }, 1000);
+              }}
+            >
+              Order
+            </button>
+            <div
+              className="modal fade"
+              id="exampleModalCenter"
+              tabIndex="-1"
+              role="dialog"
+              aria-labelledby="exampleModalCenterTitle"
+              aria-hidden="true"
+            >
               <div
-                className="container"
-                style={{ maxWidth: "150px", marginBottom: "5px" }}
-              ></div>
+                className="modal-dialog modal-dialog-centered"
+                role="document"
+              >
+                <div className="modal-content">
+                  <div className="modal-body">You have placed an order!</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

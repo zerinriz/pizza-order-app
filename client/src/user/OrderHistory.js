@@ -4,6 +4,7 @@ import OrderHistoryList from "./OrderHistoryList";
 
 function OrderHistory() {
   const [list, setList] = useState([]);
+  console.log(list);
   const userId = window.location.pathname.match(/^\/orderHistory\/(.+)/)[1];
   useEffect(() => {
     listOrders(userId).then((data) => {
@@ -11,11 +12,10 @@ function OrderHistory() {
         console.log(data.error);
       } else {
         setList(data.data);
-        console.log(data.data)
+        console.log(data.data);
       }
     });
   }, []);
-
 
   return (
     <div className="container-fluid ">
@@ -23,14 +23,7 @@ function OrderHistory() {
         <div className="scroll" style={{ maxHeight: "100%", maxWidth: "100%" }}>
           <div className="row">
             {list.map((item, index) => (
-              <OrderHistoryList
-                dough={item.dough}
-                ingredients={item.ingredients}
-                price={item.price}
-                counter={item.counter}
-                time={item.time}
-                key={index}
-              />
+              <OrderHistoryList fullOrder={item.fullOrders} key={index}/>
             ))}
           </div>
         </div>

@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema({
   },
 
   addresses: [{ type: mongoose.Types.ObjectId, ref: "Address" }],
-  orders: [{ type: mongoose.Types.ObjectId, ref: "Orders" }],
+  orders: [{ type: mongoose.Types.ObjectId, ref: "FullOrders" }],
 
   created: {
     type: Date,

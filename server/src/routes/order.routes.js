@@ -4,7 +4,7 @@ import userCtrl from "../controllers/user.controller";
 
 const router = express.Router();
 
-router.route("/orders").post(orderCtrl.createAddress)
+router.route("/orders").post(orderCtrl.createOrders)
 
 router.route("/orders/:userId").get(orderCtrl.listOrders, userCtrl.read);
 

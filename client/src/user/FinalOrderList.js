@@ -1,7 +1,6 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
-const axios = require("axios");
-import { useSelector, useDispatch } from "react-redux";
-import baseUrl from "../config";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
 import * as actions from "./../redux/actions/index";
 
 function FinalOrderList({
@@ -13,20 +12,20 @@ function FinalOrderList({
   sumOfAll,
   setSumOfAll,
   track,
+  item,
 }) {
-  const count = useSelector((state) => state.count);
   const [counter, setCounter] = useState(amount);
-  const sum = price * counter;
   const dispatch = useDispatch();
-  useLayoutEffect(() => {
-    finalSum[1] = sum;
-  }, [counter]);
+  const sum = price * counter;
 
   useEffect(() => {
     dispatch(actions.addAmount(sumOfAll + 5));
   }, [sumOfAll]);
 
   useEffect(() => {
+    finalSum[track] = sum;
+    item[3].amount = counter;
+    console.log(track);
     setSumOfAll(finalSum.reduce((a, b) => a + b, 0));
   }, [counter]);
 
@@ -38,34 +37,6 @@ function FinalOrderList({
     }
   }
 
-  useEffect(() => {
-    if (count === 1) {
-      addFinalOrder();
-    }
-  }, [count]);
-
-  async function addFinalOrder() {
-    var token = sessionStorage.getItem("token");
-    const tokenParse = JSON.parse(token);
-    const userId = tokenParse.user._id;
-    await axios.post(
-      `${baseUrl}/orders`,
-
-      {
-        dough: dough,
-        ingredients: ingredients,
-        price: price,
-        counter: counter,
-        userId: userId,
-      },
-
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-  }
   return (
     <div className="col-sm">
       <div className="card" style={{ margin: "5px", width: "15rem" }}>
@@ -75,7 +46,7 @@ function FinalOrderList({
             Ingredients: {ingredients.toString()}
           </h6>
           <h6 className=" text-center">Price: {price}</h6>
-          <div className="btn-group" style={{marginLeft:"30%"}}>
+          <div className="btn-group" style={{ marginLeft: "30%" }}>
             <button
               type="button"
               className="btn-sm btn-primary"

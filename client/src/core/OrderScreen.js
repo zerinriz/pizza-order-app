@@ -7,13 +7,11 @@ function OrderScreen() {
   const order = useSelector((state) => state.order);
   const [totalAmount, setTotalAmount] = useState([]);
   const [orderList, setOrderList] = useState([]);
-  const [count, setCount] = useState(-1);
   const [sumAll, setSumAll] = useState(0);
 
   useEffect(() => {
     setOrderList(order);
     setTotalAmount([...totalAmount, 0]);
-    setCount(count + 1);
   }, [order]);
 
   return (
@@ -22,7 +20,7 @@ function OrderScreen() {
         {orderList.map((item, index) => (
           <OrderList
             setSumAll={setSumAll}
-            count={count}
+            count={index}
             totalAmount={totalAmount}
             orderList={orderList}
             setOrderList={setOrderList}
