@@ -10,7 +10,6 @@ function FinalOrder() {
   useLayoutEffect(() => {
     if (finalSum.length >= 2) {
       finalSum.shift();
-      console.log(finalSum);
     }
   }, []);
 

@@ -4,7 +4,6 @@ import OrderHistoryList from "./OrderHistoryList";
 
 function OrderHistory() {
   const [list, setList] = useState([]);
-  console.log(list);
   const userId = window.location.pathname.match(/^\/orderHistory\/(.+)/)[1];
   useEffect(() => {
     listOrders(userId).then((data) => {
@@ -12,7 +11,6 @@ function OrderHistory() {
         console.log(data.error);
       } else {
         setList(data.data);
-        console.log(data.data);
       }
     });
   }, []);

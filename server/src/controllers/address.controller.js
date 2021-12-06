@@ -27,7 +27,6 @@ const createAddress = async (req, res, next) => {
   } catch (error) {
     console.log(error);
   }
-  console.log("napravio sam adresu");
   res.status(200).json({ address: newAddress, data: user.addresses });
 };
 
@@ -44,7 +43,6 @@ const listAddress = async (req, res, next) => {
 
 const removeAddress = (req, res, next) => {
   let address = req.addresses;
-  console.log(address);
   address.remove((err, deletedAddress) => {
     if (err) {
       return res.status(400).json({

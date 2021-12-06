@@ -25,8 +25,6 @@ function Address() {
 
   useEffect(() => {
     if (!finalOrder.length || !list.length) {
-      console.log(list);
-      console.log("aa");
       setDisable(true);
     } else {
       setDisable(false);
@@ -70,7 +68,6 @@ function Address() {
         )
         .then((res) => {
           setList(res.data.data);
-          console.log(list);
         });
       setShow(true);
       setAddress("");

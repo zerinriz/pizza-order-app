@@ -25,7 +25,6 @@ function FinalOrderList({
   useEffect(() => {
     finalSum[track] = sum;
     item[3].amount = counter;
-    console.log(track);
     setSumOfAll(finalSum.reduce((a, b) => a + b, 0));
   }, [counter]);
 
