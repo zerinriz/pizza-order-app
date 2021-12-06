@@ -28,7 +28,6 @@ const Home = () => {
   useEffect(() => {
     if (!order.length) {
       setDisabled(true);
-      console.log(order);
     } else {
       setDisabled(false);
     }

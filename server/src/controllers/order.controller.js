@@ -46,7 +46,6 @@ const createOrders = async (req, res, next) => {
 
 const listOrders = async (req, res, next) => {
   const userId = req.url.match(/^\/orders\/(.+)/)[1];
-  console.log(userId);
   let user;
   try {
     user = await User.findById(userId).populate({
