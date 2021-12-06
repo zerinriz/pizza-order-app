@@ -24,12 +24,14 @@ function Address() {
   const finalOrder = useSelector((state) => state.finalorder);
 
   useEffect(() => {
-    if (!finalOrder.length) {
+    if (!finalOrder.length || !list.length) {
+      console.log(list);
+      console.log("aa");
       setDisable(true);
     } else {
       setDisable(false);
     }
-  }, []);
+  }, [list]);
 
   async function addFinalOrder() {
     var token = sessionStorage.getItem("token");
@@ -67,7 +69,6 @@ function Address() {
           }
         )
         .then((res) => {
-          console.log(res.data.data);
           setList(res.data.data);
           console.log(list);
         });
@@ -105,6 +106,8 @@ function Address() {
             <div className="row">
               {list.map((item, index) => (
                 <AddressList
+                  list={list}
+                  setDisable={setDisable}
                   setCounter={setCounter}
                   address={item.address}
                   floor={item.floor}
